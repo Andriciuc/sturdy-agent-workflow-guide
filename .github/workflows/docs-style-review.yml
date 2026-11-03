@@ -1,0 +1,64 @@
+# Reviews documentation changes in a pull request against the Percona
+# documentation style guide (https://github.com/percona/doc-style-guide)
+# and posts inline suggestions that the author can accept.
+#
+# Reviewer instructions: .github/docs-style-review.md
+# Setup and usage: README.md
+
+name: Docs style review
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, labeled]
+    paths:
+      - "docs/**/*.md"
+      - "snippets/**/*.md"
+
+# One review per pull request at a time; a newer run cancels an older one.
+concurrency:
+  group: docs-style-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    # Skip drafts and pull requests from forks (forks cannot read the API key secret).
+    # On a "labeled" event, run only for the style-review label.
+    if: >-
+      github.event.pull_request.draft == false &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      (github.event.action != 'labeled' || github.event.label.name == 'style-review')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Check out the pull request
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Check out the Percona documentation style guide
+        uses: actions/checkout@v6
+        with:
+          repository: percona/doc-style-guide
+          path: .style-guide
+          fetch-depth: 1
+
+      - name: Review against the style guide
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            You are a technical writing reviewer for Percona documentation.
+            The pull request branch is checked out in the current directory.
+            The Percona documentation style guide is checked out in .style-guide/docs/.
+
+            Follow the review instructions in .github/docs-style-review.md exactly.
+          claude_args: |
+            --max-turns 40
+            --allowedTools "Read,Glob,Grep,mcp__github_inline_comment__create_inline_comment,Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr comment:*)"
