@@ -14,5 +14,5 @@ The review runs when a pull request is opened, reopened, or marked as ready for 
 ### Set up the review
 
 1. Install the [Claude GitHub app](https://github.com/apps/claude) on this repository.
-2. Add an `ANTHROPIC_API_KEY` secret in **Settings** > **Secrets and variables** > **Actions**.
+2. Run `claude setup-token` with a Claude Pro or Max account, and add the token as a `CLAUDE_CODE_OAUTH_TOKEN` secret in **Settings** > **Secrets and variables** > **Actions**. Reviews count toward your plan's usage limits.
 3. Create a `style-review` label in **Issues** > **Labels**.
