@@ -9,6 +9,8 @@ Sturdy is super easy to configure and it's simply the most powerful CLI on the m
 ~/.config/sturdy/config.toml
 ```
 
+https://github.com/Andriciuc/does-not-exist
+
 The TTL setting allows you to control how long the cache entries should be kept. You could set it to any value, starting from version 1.2 the default is 300 seconds.
 
 !!! note
