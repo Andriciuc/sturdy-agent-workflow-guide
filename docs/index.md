@@ -7,3 +7,4 @@ Use these pages as a base for test pull requests. Add a page or change an existi
 ## Pages in this folder
 
 - [Install sturdy](install-sturdy.md)
+- [Configure sturdy](configure-sturdy.md)
