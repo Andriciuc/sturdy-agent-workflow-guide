@@ -1,4 +1,4 @@
-# Configuring Sturdy:
+# Configure sturdy
 
 ## Overview
 ### Config file
