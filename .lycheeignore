@@ -1,0 +1,4 @@
+# Links that lychee skips. One regular expression per line.
+
+# Placeholder links in the sample docs
+^https?://(www\.)?example\.com
